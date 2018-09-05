@@ -1,0 +1,53 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="${sessionScope.get("user")==null?'index.jsp':'profile.jsp'}">WhatWhereWhen</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="Controller?command=teams"><fmt:message key="rate"/></a></li>
+        <c:if test='${sessionScope.get("user")!=null}'>
+            <c:choose>
+                <c:when test="${sessionScope.user.team != null}">
+                    <li><a href="Controller?teamId=${sessionScope.user.team.teamId}&command=team"><fmt:message key="team"/></a></li>
+                    <c:if test="${sessionScope.game == null}">
+                    <li><a href="Controller?command=startgame"><fmt:message key="startGame"/></a></li>
+                    </c:if>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="createteam.jsp"><fmt:message key="createTeam"/></a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <c:choose>
+              <c:when test='${sessionScope.get("user")==null}'>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Auth<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="login.jsp"><fmt:message key="logIn"/></a></li>
+                      <li><a href="signup.jsp"><fmt:message key="signUp"/></a></li>
+                    </ul>
+                  </li>
+              </c:when>
+              <c:otherwise>
+                  <li><a href="Controller?command=logout"><fmt:message key="logOut"/></a></li>
+              </c:otherwise>
+          </c:choose>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
